@@ -9,10 +9,7 @@ import PointOfSaleIcon from "@mui/icons-material/PointOfSale";
 import PersonAddIcon from "@mui/icons-material/DownloadOutlined";
 import TrafficIcon from "@mui/icons-material/Traffic";
 import LineChart from "../../../components/Admin/LineChart";
-import PieChart from "../../../components/Admin/PieChart";
-import BarChart from "../../../components/Admin/BarChart";
 import StatBox from "../../../components/Admin/StatsBox";
-import ProgressCircle from "../../../components/Admin/ProgressCircle";
 
 const DashBoard = () => {
   const theme = useTheme();

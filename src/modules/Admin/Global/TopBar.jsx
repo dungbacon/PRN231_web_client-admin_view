@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Box, IconButton, useTheme, InputBase } from "@mui/material";
 import { useContext } from "react";
 import { ColorModeContext, tokens } from "../../../theme";
@@ -8,11 +8,49 @@ import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import SearchIcon from "@mui/icons-material/Search";
+import ClickAwayListener from "@mui/material/ClickAwayListener";
+import Grow from "@mui/material/Grow";
+import Paper from "@mui/material/Paper";
+import Popper from "@mui/material/Popper";
+import MenuItem from "@mui/material/MenuItem";
+import MenuList from "@mui/material/MenuList";
 
 const TopBar = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const colorMode = useContext(ColorModeContext);
+  const [open, setOpen] = useState(false);
+  const anchorRef = useRef(null);
+
+  const handleUserButton = () => {
+    console.log(prevOpen);
+    setOpen((prevOpen) => !prevOpen);
+  };
+
+  const handleClose = (event) => {
+    if (anchorRef.current && anchorRef.current.contains(event.target)) {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+  function handleListKeyDown(event) {
+    if (event.key === "Tab") {
+      event.preventDefault();
+      setOpen(false);
+    } else if (event.key === "Escape") {
+      setOpen(false);
+    }
+  }
+
+  const prevOpen = useRef(open);
+  useEffect(() => {
+    if (prevOpen.current === true && open === false) {
+      anchorRef.current.focus();
+    }
+    prevOpen.current = open;
+  }, [open]);
 
   return (
     <Box display="flex" justifyContent="space-between" p={2}>
@@ -41,9 +79,53 @@ const TopBar = () => {
         <IconButton>
           <SettingsOutlinedIcon />
         </IconButton>
-        <IconButton>
+        <IconButton
+          ref={anchorRef}
+          id="icon-button"
+          aria-controls={open ? "icon-button-menu" : undefined}
+          aria-expanded={open ? "true" : undefined}
+          aria-haspopup="true"
+          onClick={handleUserButton}
+        >
           <PersonOutlinedIcon />
         </IconButton>
+        <Popper
+          open={open}
+          anchorEl={anchorRef.current}
+          role={undefined}
+          placement="bottom-end"
+          transition
+          disablePortal
+          style={{ zIndex: 1 }}
+        >
+          {({ TransitionProps, placement }) => (
+            <Grow
+              {...TransitionProps}
+              style={{
+                transformOrigin:
+                  placement === "top" ? "left bottom" : "left bottom",
+              }}
+            >
+              <Paper
+                className="bg-slate-100"
+                backgroundColor={colors.primary[500]}
+              >
+                <ClickAwayListener onClickAway={handleClose}>
+                  <MenuList
+                    autoFocusItem={open}
+                    id="icon-button-menu"
+                    aria-labelledby="icon-button"
+                    onKeyDown={handleListKeyDown}
+                  >
+                    <MenuItem onClick={handleClose}>Profile</MenuItem>
+                    <MenuItem onClick={handleClose}>My account</MenuItem>
+                    <MenuItem onClick={handleClose}>Logout</MenuItem>
+                  </MenuList>
+                </ClickAwayListener>
+              </Paper>
+            </Grow>
+          )}
+        </Popper>
       </Box>
     </Box>
   );

@@ -24,7 +24,7 @@ const AdminView = () => {
         <CssBaseline />
         <div className="app">
           <SideBar />
-          <main className="content">
+          <main className="content" style={{ overflow: "hidden" }}>
             <TopBar />
             <Routes>
               <Route path="/" element={<DashBoard />} />
