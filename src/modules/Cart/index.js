@@ -64,7 +64,7 @@ const Cart = () => {
   return (
     <div>
       <Header />
-      <div className="container mx-auto mt-40">
+      <div className="container mx-auto mt-[40px]">
         <div className="flex shadow-md my-10">
           <div className="w-3/4 bg-white px-10 py-10">
             <div className="flex justify-between border-b pb-8">

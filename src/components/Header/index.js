@@ -24,7 +24,7 @@ const Header = () => {
   };
 
   return (
-    <header className="fixed top-0 left-0 z-10 w-full bg-white text-gray-600 body-font shadow-md">
+    <header className="sticky top-0 left-0 z-10 w-full bg-white text-gray-600 body-font shadow-md">
       <div className="container w-11/12 mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
         <Link
           to={"/"}

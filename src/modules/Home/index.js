@@ -6,6 +6,7 @@ import Statistic from "../../components/Statistic";
 import Footer from "../../components/Footer";
 import Loading from "../../components/Loading";
 import Categories from "../../components/Categories";
+import { slides } from "../../data/slideData";
 
 const Home = () => {
   const [products = [], setProducts] = useState([]);
@@ -24,7 +25,7 @@ const Home = () => {
   return (
     <>
       <Header />
-      <Slider />
+      <Slider slides={slides} />
       <div className="flex flex-col text-center w-full">
         <h2 className="text-xs text-green-500 tracking-widest font-medium title-font mb-1">
           Products
