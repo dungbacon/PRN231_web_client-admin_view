@@ -1433,3 +1433,5 @@ export const mockGeographyData = [
     value: 171135,
   },
 ];
+
+export const laptops = [{}];

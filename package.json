@@ -18,6 +18,7 @@
     "@fullcalendar/react": "^6.1.8",
     "@fullcalendar/timegrid": "^6.1.8",
     "@iconscout/react-unicons": "^2.0.2",
+    "@material-tailwind/react": "^2.0.4",
     "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.13.4",
     "@mui/x-data-grid": "^6.7.0",
