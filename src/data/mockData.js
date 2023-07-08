@@ -1437,14 +1437,15 @@ export const mockGeographyData = [
 
 export const laptops = [
   {
-    id: 1,
-    title: "Laptop HP VICTUS 16-e1107AX 7C140PA",
+    productId: 1,
+    categoryId: 4,
+    productName: "Laptop HP VICTUS 16-e1107AX 7C140PA",
+    productImg:
+      "https://laptop88.vn/media/product/6659_hp_victus_16_2022_vu__ng__6_.jpg https://images.unsplash.com/photo-1531297484001-80022131f5a1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2620&q=80 https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2670&q=80 https://images.unsplash.com/photo-1661961112951-f2bfd1f253ce?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2672&q=80 https://images.unsplash.com/photo-1512756290469-ec264b7fbf87?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2253&q=80",
     rating: 4,
     price: 26490000,
     discount: "31",
     stockQuantity: 10,
-    img: "https://laptop88.vn/media/product/6659_hp_victus_16_2022_vu__ng__6_.jpg",
-    imgs: slides,
     description:
       "Thiết kế sang trọng, đậm chất gaming với vỏ máy Aluminium cho cảm giác chạm vào rất mịn màng. Máy có trọng lượng nhẹ chỉ 2.35 kg chắc chắn, dễ dàng cầm nắm hay bỏ vào balo. Bộ vi xử lý AMD Ryzen 5 6600H hiệu suất vượt trội cho phép tự do sáng tạo nội dung, livestream hay chơi game cực mướt mà không lo lag giật. Card đồ họa NVIDIA GeForce RTX 3050 4GB cân mọi tác vụ đồ họa hay trải nghiệm các tựa game bom tấn với chất lượng hình ảnh mãn nhãn. RAM 8GB DDR5 hỗ trợ nâng cấp lên đến 16GB thoải mái làm việc trên nhiều ứng dụng nặng cùng lúc.",
     data: `<table class="text-sm border-slate-500 ml-[5px] my-[25px]">
@@ -1490,6 +1491,208 @@ export const laptops = [
 <li>1 x Mic-in/ Headphone-out&nbsp;combo jack</li>
 <li>1 x RJ45</li>
 </ul>
+</td>
+</tr>
+</tbody>
+</table>`,
+  },
+  {
+    productId: 2,
+    categoryId: 2,
+    productName: "Laptop ASUS TUF Gaming 2021 FX506HCB-HN144W",
+    productImg:
+      "https://laptop88.vn/media/product/6646_ac_m___i_100__full_box_laptop_asus_tuf_gaming_2021_fx506hc_hn144w.jpg https://laptop88.vn/media/product/120_6646_asus_tuf_gaming_fx506hc_i5.png https://laptop88.vn/media/product/120_6646_63571_laptop_asus_gaming_tuf_fx506hcb_63.jpg https://laptop88.vn/media/product/120_6646_63571_laptop_asus_gaming_tuf_fx506hcb_60.jpg https://laptop88.vn/media/product/120_6646_63571_laptop_asus_gaming_tuf_fx506hcb_59.jpg",
+    rating: 4,
+    price: 22990000,
+    discount: 17,
+    stockQuantity: 10,
+    description:
+      "Chip i5 đời 11 mới nhất cho hiệu năng vượt trội kết hợp cùng card RTX 3050 sẵn sàng chiến mượt mọi tựa game HOT và đồ họa 3D nặng. Thiết kế cực cool ngầu với những họa tiết phay xước nổi bật và vỏ kim loại chắc chắn, bền bỉ đạt chuẩn quân sự, bất chấp mọi sự va đập. Màn hình 15.6 inch, độ phân giải Full HD, tấm nền IPS và tần số quét 144Hz cho những phút giây chơi game mượt mà, chân thực và sống động nhất, không sợ xé hình khi chơi bắn súng, đua xe. Bộ tản nhiệt chất lừ với 2 quạt, 4 ống dẫn nhiệt, 3 ống tản nhiệt giúp hệ thống luôn mát, nhiệt độ luôn được giữ ở mức tối ưu nhất",
+    data: `<table class="text-sm border-slate-500 ml-[5px] my-[25px]">
+<tbody>
+<tr>
+<td class="w-[30%]">
+<p>Bộ vi xử l&yacute;</p>
+</td>
+<td class="w-[70%]">
+<p>Intel Core i5-11400H</p>
+</td>
+</tr>
+<tr>
+<td class="w-[30%]">
+<p>Tốc độ</p>
+</td>
+<td class="w-[70%]">
+<p>2.70 GHz upto 4.50 GHz, 6 cores 12 threads</p>
+</td>
+</tr>
+<tr>
+<td class="w-[30%]">
+<p>Dung lượng RAM</p>
+</td>
+<td class="w-[70%]">
+<p>8GB DDR4 3200MHz ,&nbsp;2x SO-DIMM slot</p>
+</td>
+</tr>
+<tr>
+<td class="w-[30%]">
+<p>Dung lượng ổ cứng</p>
+</td>
+<td class="w-[70%]">
+<p>512GB NVMe SSD</p>
+</td>
+</tr>
+<tr>
+<td class="w-[30%]">
+<p>M&agrave;n h&igrave;nh</p>
+</td>
+<td class="w-[70%]">
+<p>15.6 inch FHD (1920x1080)IPS, Non-Glare,&nbsp;144Hz</p>
+</td>
+</tr>
+<tr>
+<td class="w-[30%]">
+<p><strong>Card m&agrave;n h&igrave;nh</strong></p>
+</td>
+<td class="w-[70%]">
+<p>NVIDIA&reg; GeForce RTX&trade; 3050 4GB</p>
+</td>
+</tr>
+<tr>
+<td class="w-[30%]">
+<p>Wireless</p>
+</td>
+<td class="w-[70%]">
+<p>Intel Wi-Fi 6(Gig+)(802.11ax)</p>
+</td>
+</tr>
+<tr>
+<td class="w-[30%]">
+<p>LAN</p>
+</td>
+<td class="w-[70%]">
+<p>&nbsp;1 x RJ45 LAN jack for LAN insert</p>
+</td>
+</tr>
+<tr>
+<td class="w-[30%]">
+<p>Bluetooth</p>
+</td>
+<td class="w-[70%]">
+<p>BT5.0</p>
+</td>
+</tr>
+<tr>
+<td class="w-[30%]">
+<p>Kiểu b&agrave;n ph&iacute;m</p>
+</td>
+<td class="w-[70%]">
+<p>B&agrave;n ph&iacute;m ti&ecirc;u chuẩn, c&oacute; b&agrave;n ph&iacute;m số -&nbsp;1-Zone RGB KB</p>
+</td>
+</tr>
+<tr>
+<td class="w-[30%]">
+<p>Chuột</p>
+</td>
+<td class="w-[70%]">
+<p>Cảm ứng đa điểm</p>
+</td>
+</tr>
+<tr>
+<td class="w-[30%]">
+<p>Kết nối USB</p>
+</td>
+<td class="w-[70%]">
+<p>1x Type A USB 2.0<br />1x Type C USB 3.2 Gen 2<br />2x Type A USB 3.2 Gen 1<br />1x Kensington Lock</p>
+</td>
+</tr>
+<tr>
+<td class="w-[30%]">
+<p>Kết nối HDMI/VGA</p>
+</td>
+<td class="w-[70%]">
+<p>1x HDMI 2.0b</p>
+</td>
+</tr>
+<tr>
+<td class="w-[30%]">
+<p>Tai nghe</p>
+</td>
+<td class="w-[70%]">
+<p>1x 3.5mm combo audio jack</p>
+</td>
+</tr>
+<tr>
+<td class="w-[30%]">
+<p>Camera</p>
+</td>
+<td class="w-[70%]">
+<p>HD 720p CMOS module</p>
+</td>
+</tr>
+<tr>
+<td class="w-[30%]">
+<p>Card mở rộng</p>
+</td>
+<td class="w-[70%]">
+<p>-</p>
+</td>
+</tr>
+<tr>
+<td class="w-[30%]">
+<p><strong>LOA</strong></p>
+</td>
+<td class="w-[70%]">
+<p>2 Loa</p>
+</td>
+</tr>
+<tr>
+<td class="w-[30%]">
+<p><strong>Kiểu Pin</strong></p>
+</td>
+<td class="w-[70%]">
+<p>3 cells</p>
+</td>
+</tr>
+<tr>
+<td class="w-[30%]">
+<p><strong>Sạc pin</strong></p>
+</td>
+<td class="w-[70%]">
+<p>Đi k&egrave;m</p>
+</td>
+</tr>
+<tr>
+<td class="w-[30%]">
+<p><strong>Hệ điều h&agrave;nh&nbsp;(bản quyền) đi k&egrave;m&nbsp;</strong></p>
+</td>
+<td class="w-[70%]">
+<p>Windows 10 Home</p>
+</td>
+</tr>
+<tr>
+<td class="w-[30%]">
+<p><strong>K&iacute;ch thước (D&agrave;i x Rộng x Cao)</strong></p>
+</td>
+<td class="w-[70%]">
+<p>35.9(W) x 25.6(D) x 2.47 ~ 2.49(H) cm</p>
+</td>
+</tr>
+<tr>
+<td class="w-[30%]">
+<p><strong>Trọng Lượng</strong></p>
+</td>
+<td class="w-[70%]">
+<p>2.3Kg</p>
+</td>
+</tr>
+<tr>
+<td class="w-[30%]">
+<p><strong>M&agrave;u sắc</strong></p>
+</td>
+<td class="w-[70%]">
+<p>FX506HCB-HN1138W -&nbsp;X&aacute;m</p>
+<p>FX506HCB-HN144W - Đen</p>
 </td>
 </tr>
 </tbody>

@@ -2,6 +2,7 @@ import React from "react";
 import StringToHtml from "../../common_function/StringToHtml";
 import Carousel from "../Carousel";
 import { Rating } from "@material-tailwind/react";
+import { url_img_regex } from "../../common_function/regex/commonRegex";
 
 const ProductDetail = ({ product }) => {
   const formattedSalePrice = (
@@ -15,6 +16,8 @@ const ProductDetail = ({ product }) => {
   });
 
   const sentences = product.description.split(/\. /);
+
+  const imgs = ([] = product.productImg.match(url_img_regex));
 
   const handleCart = (product, redirect) => {
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -41,7 +44,7 @@ const ProductDetail = ({ product }) => {
   return (
     <div className="mt-[20px] mx-[20px]">
       <h2 className="font-semibold text-[19px] leading-loose mx-[20px]">
-        {product.title}
+        {product.productName}
       </h2>
       <hr className="h-[2px] block mb-[15px] mt-[5px] mx-[20px] border-[#d5e5d5]" />
       <div className="flex justify-center">
@@ -53,9 +56,9 @@ const ProductDetail = ({ product }) => {
           <img
             className="h-[370px] w-[370px] rounded"
             style={{ margin: "10px auto" }}
-            src="https://laptop88.vn/media/product/6659_hp_victus_16_2022_vu__ng__6_.jpg"
+            src={imgs[0]}
           />
-          <Carousel slides={product.imgs} />
+          <Carousel slides={imgs} />
         </div>
 
         {/* {Description} */}
@@ -151,7 +154,10 @@ const ProductDetail = ({ product }) => {
           <h3 className="font-sans mb-[10px] ml-[5px] w-[40%] border-b-[2px] border-b-[#d5e5d5] text-[20px] font-bold">
             Thông số kĩ thuật
           </h3>
-          <StringToHtml input={product.data} />
+          <StringToHtml
+            props="overflow-y-auto h-[500px]"
+            input={product.data}
+          />
         </div>
       </div>
     </div>

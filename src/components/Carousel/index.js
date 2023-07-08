@@ -35,15 +35,15 @@ const Carousel = ({ slides }) => {
   return (
     <div className="max-w-[1400px] h-[110px] w-full relative group flex justify-center mb-5">
       <div
-        style={{ backgroundImage: `url(${slides[currentIndex].url})` }}
+        style={{ backgroundImage: `url(${slides[currentIndex]})` }}
         className="w-[110px] h-[110px] rounded-xl bg-center bg-cover duration-500 mr-3"
       ></div>
       <div
-        style={{ backgroundImage: `url(${slides[currentIndex + 1].url})` }}
+        style={{ backgroundImage: `url(${slides[currentIndex + 1]})` }}
         className="w-[110px] h-[110px] rounded-xl bg-center bg-cover duration-500 mr-3"
       ></div>
       <div
-        style={{ backgroundImage: `url(${slides[currentIndex + 2].url})` }}
+        style={{ backgroundImage: `url(${slides[currentIndex + 2]})` }}
         className="w-[110px] h-[110px] rounded-xl bg-center bg-cover duration-500"
       ></div>
       {/* Left Arrow */}
