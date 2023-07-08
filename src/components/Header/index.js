@@ -14,13 +14,18 @@ const navigations = [
 
 const Header = () => {
   const navigate = useNavigate();
+  const token = localStorage.getItem("token");
 
   const hanldeCartBtn = () => {
     navigate("/cart");
   };
 
-  const hanldeSignInBtn = () => {
-    navigate("/login");
+  const hanldeBtn = () => {
+    if (token) {
+      navigate("/logout");
+    } else {
+      navigate("/login");
+    }
   };
 
   return (
@@ -68,16 +73,20 @@ const Header = () => {
               icon={icon({ name: "cart-arrow-down" })}
             />
           </button>
-          <button
-            className="capitalize inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-green-500 hover:text-white font-semibold rounded text-base mt-4 md:mt-0"
-            onClick={() => hanldeSignInBtn()}
-          >
-            Sign In
-            <FontAwesomeIcon
-              className="pl-1"
-              icon={icon({ name: "sign-in" })}
-            />
-          </button>
+          {
+            <button
+              className="capitalize inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-green-500 hover:text-white font-semibold rounded text-base mt-4 md:mt-0"
+              onClick={() => hanldeBtn()}
+            >
+              {token ? "Sign Out" : "Sign In"}
+              <FontAwesomeIcon
+                className="pl-1"
+                icon={
+                  token ? icon({ name: "sign-in" }) : icon({ name: "sign-out" })
+                }
+              />
+            </button>
+          }
         </div>
       </div>
     </header>

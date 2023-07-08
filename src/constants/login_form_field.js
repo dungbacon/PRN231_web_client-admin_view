@@ -23,7 +23,7 @@ const loginFields = [
 
 const signupFields = [
   {
-    labelText: "Username",
+    labelText: "FullName",
     labelFor: "username",
     id: "username",
     name: "username",
