@@ -6,10 +6,10 @@ import DropDown from "./DropDown";
 import LinkHeader from "./LinkHeader";
 
 const navigations = [
-  { name: "Home", path: "/" },
-  { name: "Products", path: "/products" },
+  { name: "Trang chủ", path: "/" },
+  { name: "Sản phẩm", path: "/products" },
   { name: "About", path: "/about" },
-  { name: "Contact", path: "/contact" },
+  { name: "contact", path: "/contact" },
 ];
 
 const Header = () => {
@@ -30,10 +30,10 @@ const Header = () => {
 
   return (
     <header className="sticky top-0 left-0 z-10 w-full bg-white text-gray-600 body-font shadow-md">
-      <div className="container w-11/12 mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
+      <div className="w-11/12 mx-auto flex py-5 flex-col md:flex-row items-center relative">
         <Link
           to={"/"}
-          className="flex cursor-pointer title-font font-medium items-center text-gray-900 mb-4 md:mb-0"
+          className="flex cursor-pointer title-font font-medium items-center text-gray-900 mb-4 md:mb-0 absolute left-0"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -49,25 +49,21 @@ const Header = () => {
           </svg>
           <span className="ml-3 text-xl font-mono">EShop</span>
         </Link>
-        <nav className="md:ml-auto md:mr-auto flex flex-wrap items-center text-base justify-center">
+        <nav className="md:ml-auto md:mr-auto flex flex-wrap items-center text-base">
           {navigations.map((item, index) => {
             return (
               <div key={index}>
-                {item.name === "Products" ? (
-                  <DropDown item={item} />
-                ) : (
-                  <LinkHeader item={item} />
-                )}
+                <LinkHeader item={item} />
               </div>
             );
           })}
         </nav>
-        <div className="flex justify-around ">
+        <div className="flex justify-around absolute right-0">
           <button
             className="capitalize mr-5 inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-green-500 hover:text-white font-semibold rounded text-base mt-4 md:mt-0"
             onClick={() => hanldeCartBtn()}
           >
-            Go to Cart
+            Giỏ hàng
             <FontAwesomeIcon
               className="pl-1"
               icon={icon({ name: "cart-arrow-down" })}
@@ -78,7 +74,7 @@ const Header = () => {
               className="capitalize inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-green-500 hover:text-white font-semibold rounded text-base mt-4 md:mt-0"
               onClick={() => hanldeBtn()}
             >
-              {token ? "Sign Out" : "Sign In"}
+              {token ? "Đăng xuất" : "Đăng nhập"}
               <FontAwesomeIcon
                 className="pl-1"
                 icon={

@@ -4,6 +4,9 @@ import Footer from "./../../components/Footer";
 import ProductCard from "../../components/ProductCard";
 import Categories from "../../components/Categories";
 import Loading from "../../components/Loading";
+import Slider from "../../components/Slider";
+import { laptops } from "../../data/mockData";
+import { slides } from "../../data/slideData";
 
 const Products = () => {
   const [products = [], setProducts] = useState([]);
@@ -18,18 +21,23 @@ const Products = () => {
   }, []);
 
   return (
-    <div>
+    <div className="overflow-hidden">
       <Header />
-      <Categories />
-      <div className="flex flex-col text-center w-full">
-        <h2 className="text-xs text-green-500 tracking-widest font-medium title-font mb-1">
-          Product
-        </h2>
-        <h1 className="sm:text-3xl text-2xl font-medium title-font text-gray-900">
-          All Product
-        </h1>
+      <div className="flex w-full items-center px-16">
+        <Slider
+          containerProps="w-[55%] h-[100px] m-auto my-10 px-1 relative group"
+          slides={slides}
+          dotProps="w-full flex py-2 absolute bottom-0 justify-center"
+        />
+        <Slider
+          containerProps="w-[55%] h-[100px] m-auto my-10 px-1 relative group"
+          slides={slides}
+          dotProps="w-full flex py-2 absolute bottom-0 justify-center"
+        />
       </div>
-      {products.length > 0 ? <ProductCard products={products} /> : <Loading />}
+      <Categories />
+      {products.length > 0 ? <ProductCard products={laptops} /> : <Loading />}
+
       <Footer />
     </div>
   );

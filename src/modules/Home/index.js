@@ -7,6 +7,7 @@ import Footer from "../../components/Footer";
 import Loading from "../../components/Loading";
 import Categories from "../../components/Categories";
 import { slides } from "../../data/slideData";
+import { laptops } from "../../data/mockData";
 
 const Home = () => {
   const [products = [], setProducts] = useState([]);
@@ -25,16 +26,20 @@ const Home = () => {
   return (
     <>
       <Header />
-      <Slider slides={slides} />
+      <Slider
+        slides={slides}
+        containerProps="max-w-[1400px] h-[780px] w-full m-auto my-10 px-4 relative group"
+        dotProps="flex top-4 justify-center py-2"
+      />
       <div className="flex flex-col text-center w-full my-20">
-        <h2 className="text-xs text-green-500 tracking-widest font-medium title-font mb-1">
-          Products
+        <h2 className="text-lg text-green-500 tracking-widest font-medium title-font mb-1">
+          Laptops
         </h2>
         <h1 className="sm:text-3xl text-2xl font-medium title-font text-gray-900">
-          Most Popular Product
+          Những Laptop phổ biến nhất
         </h1>
       </div>
-      {products.length > 0 ? <ProductCard products={products} /> : <Loading />}
+      {products.length > 0 ? <ProductCard products={laptops} /> : <Loading />}
       <Statistic />
       <Footer />
     </>

@@ -15,12 +15,6 @@ import AdminView from "./modules/Admin";
 import PrivateRoutes from "./modules/PrivateRoute";
 import Logout from "./modules/Logout";
 
-const ROLES = {
-  User: "user",
-  Employee: "emp",
-  Admin: "admin",
-};
-
 function App() {
   return (
     <div className="text-gray-600 text-4xl h-full">

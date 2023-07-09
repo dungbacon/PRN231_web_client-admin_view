@@ -1,124 +1,126 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { Rating } from "@material-tailwind/react";
+import { url_img_regex } from "../../common_function/regex/commonRegex";
+import Pagination from "../Pagination";
+import Search from "../Search";
+import DropdownButton from "../DropdownButton";
 
 const ProductCard = ({ products = [] }) => {
+  const [filteredProducts, setFilteredProducts] = useState([]);
+  const [searchPrice, setSearchPrice] = useState(500000000);
+  const [search, setSearch] = useState("");
+
+  const GetPrice = (value) => {
+    setSearchPrice(value);
+  };
+
+  const GetSearch = (value) => {
+    setSearch(value);
+  };
+
+  useEffect(() => {
+    let filtered = products;
+    if (search.length !== 0) {
+      filtered = filtered.filter((item) => item.productName.includes(search));
+    }
+    filtered = filtered.filter((item) => item.price <= searchPrice);
+    setFilteredProducts(filtered);
+  }, [search, searchPrice, products]);
+
+  const PriceAfterDiscount = (price, discount) => {
+    return (price - (discount / 100) * price).toLocaleString("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    });
+  };
+
+  const GetDisplayImg = (imgs) => {
+    return imgs.match(url_img_regex);
+  };
+
+  const PriceBeforeDiscount = (price) => {
+    return price.toLocaleString("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    });
+  };
+
   return (
-    <section className="text-gray-600 body-font py-10 mt-20">
+    <section className="text-gray-600 my-10">
       <div className="container px-5 mx-auto">
-        <div className="flex flex-wrap -m-4 items-center justify-center">
-          {products.map((product) => {
-            const { id, title, description, category, image, price, rating } =
-              product;
+        <div className="flex flex-wrap my-[50px] mx-3">
+          <Search onValueChange={GetSearch} />
+          <DropdownButton onValueChange={GetPrice} max={500000000} />
+        </div>
+        <div className="flex flex-wrap items-center justify-evenly">
+          {filteredProducts.map((product) => {
+            const {
+              productId,
+              categoryId,
+              productName,
+              productImg,
+              rating,
+              price,
+              discount,
+              stockQuantity,
+              description,
+              data,
+            } = product;
             return (
               <div
-                key={id}
-                className="lg:m-5 lg:h-96 md:m-10 h-100 flex w-full max-w-xs flex-col rounded-lg border border-gray-100 bg-white shadow-md"
+                key={productId}
+                className="md:w-[300px] my-[5px] h-auto flex w-full max-w-xs flex-col rounded-lg border border-gray-100 bg-white shadow-md"
               >
                 <Link
-                  to={`/products/${id}`}
+                  to={`/products/${productId}`}
                   className="relative mx-3 mt-3 flex h-60 overflow-hidden rounded-xl"
-                  href="#"
                 >
                   <img
-                    className="object-contain object-center w-full h-full block"
-                    src={image}
-                    alt={title}
+                    className="object-cover object-center w-full h-full block"
+                    src={GetDisplayImg(productImg)[0]}
+                    alt={productName}
                   />
-                  <span className="absolute top-0 left-0 m-2 rounded-full bg-black px-2 text-center text-sm font-medium text-white">
-                    39% OFF
+                  <span className="absolute top-0 left-0 m-2 rounded-full font-bold bg-black px-2 text-center text-sm text-white">
+                    {discount}% OFF
                   </span>
                 </Link>
-                <div className="mt-4 px-5 pb-5">
+                <div className="mt-4 px-[10px] pb-5 text-center">
                   <a href="#">
-                    <h5 className="text-xl tracking-tight text-slate-900">
-                      {title}
+                    <h5 className="text-[15px] text-slate-900 font-bold leading-5">
+                      {productName}
                     </h5>
                   </a>
-                  <div className="mt-2 mb-5 flex items-center justify-between">
+                  <div className="flex items-center">
                     <p>
-                      <span className="text-3xl font-bold text-slate-900">
-                        $449
+                      <span className="text-[15px] font-bold text-red-600">
+                        {PriceAfterDiscount(price, discount)}
                       </span>
-                      <span className="text-sm text-slate-900 line-through">
-                        ${price}
+                      <span className="text-sm font-bold text-slate-900 line-through ml-[5px]">
+                        {PriceBeforeDiscount(price)}
                       </span>
                     </p>
-                    <div className="flex items-center">
-                      <svg
-                        aria-hidden="true"
-                        className="h-5 w-5 text-yellow-300"
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-                      </svg>
-                      <svg
-                        aria-hidden="true"
-                        className="h-5 w-5 text-yellow-300"
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-                      </svg>
-                      <svg
-                        aria-hidden="true"
-                        className="h-5 w-5 text-yellow-300"
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-                      </svg>
-                      <svg
-                        aria-hidden="true"
-                        className="h-5 w-5 text-yellow-300"
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-                      </svg>
-                      <svg
-                        aria-hidden="true"
-                        className="h-5 w-5 text-yellow-300"
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-                      </svg>
-                      <span className="mr-2 ml-3 rounded bg-yellow-200 px-2.5 py-0.5 text-xs font-semibold">
-                        {rating.rate}
-                      </span>
-                    </div>
                   </div>
-                  <a
-                    href="#"
-                    className="flex items-center justify-center rounded-md bg-slate-900 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-blue-300"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="mr-2 h-6 w-6"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
-                      />
-                    </svg>
-                    Add to cart
-                  </a>
+                  <div className="bg-[#f3f4f6] border-[1px] border-solid border-[#e5e7eb] h-[50px] rounded text-[12px] leading-[2px] transform-none p-[5px], w-auto flex items-start overflow-hidden">
+                    <p className="overflow-hidden leading-4">
+                      {description.slice(0, 100)}...
+                    </p>
+                  </div>
+                  <div className="flex items-center mt-[10px]">
+                    <Rating
+                      className="text-yellow-500 mr-[5px]"
+                      value={rating}
+                    />
+                    <span className="mr-2 ml-3 rounded bg-yellow-200 px-2.5 py-0.5 text-xs font-semibold">
+                      {rating}
+                    </span>
+                  </div>
                 </div>
               </div>
             );
           })}
         </div>
+        <Pagination />
       </div>
     </section>
   );

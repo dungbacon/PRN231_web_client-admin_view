@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import FeatureCard from "../FeatureCard";
 import Loading from "../Loading";
+import { categoriesData } from "../../data/mockData";
 
 const Categories = () => {
   const [categories = [], setCategories] = useState([]);
@@ -17,7 +18,7 @@ const Categories = () => {
 
   if (categories.length === 0) return <Loading />;
 
-  return <FeatureCard cards={categories} />;
+  return <FeatureCard categories={categoriesData} />;
 };
 
 export default Categories;
