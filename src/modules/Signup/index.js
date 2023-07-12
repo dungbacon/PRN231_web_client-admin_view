@@ -35,7 +35,6 @@ const SignUp = () => {
       if (response.status === 200) {
         handleLoginSuccess();
       }
-      console.log(response);
     } catch (err) {
       console.error(err);
     }

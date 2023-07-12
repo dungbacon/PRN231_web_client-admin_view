@@ -68,7 +68,6 @@ const Team = () => {
                 : colors.greenAccent[700]
             }
           >
-            {console.log(access)}
             {access === "manager" && <SecurityOutlinedIcon />}
             {access === "admin" && <AdminPanelSettingsOutlinedIcon />}
             {access === "user" && <LockOpenOutlinedIcon />}

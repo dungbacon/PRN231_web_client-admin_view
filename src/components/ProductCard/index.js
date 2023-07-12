@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Rating } from "@material-tailwind/react";
 import { url_img_regex } from "../../common_function/regex/commonRegex";
-import Pagination from "../Pagination";
 import Search from "../Search";
 import DropdownButton from "../DropdownButton";
 
@@ -49,11 +48,11 @@ const ProductCard = ({ products = [] }) => {
   return (
     <section className="text-gray-600 my-10">
       <div className="container px-5 mx-auto">
-        <div className="flex flex-wrap my-[50px] mx-3">
+        <div className="flex my-[50px] mx-3">
           <Search onValueChange={GetSearch} />
           <DropdownButton onValueChange={GetPrice} max={500000000} />
         </div>
-        <div className="flex flex-wrap items-center justify-evenly">
+        <div className="flex flex-wrap items-center justify-start">
           {filteredProducts.map((product) => {
             const {
               productId,
@@ -70,14 +69,14 @@ const ProductCard = ({ products = [] }) => {
             return (
               <div
                 key={productId}
-                className="md:w-[300px] my-[5px] h-auto flex w-full max-w-xs flex-col rounded-lg border border-gray-100 bg-white shadow-md"
+                className="md:w-[300px] md:min-h-[490px] my-[5px] mx-[5px] h-full flex w-full flex-col rounded-lg border border-gray-100 bg-white shadow-md"
               >
                 <Link
                   to={`/products/${productId}`}
-                  className="relative mx-3 mt-3 flex h-60 overflow-hidden rounded-xl"
+                  className="relative mx-3 mt-3  flex overflow-hidden rounded-xl"
                 >
                   <img
-                    className="object-cover object-center w-full h-full block"
+                    className="object-contain object-center w-full h-full block"
                     src={GetDisplayImg(productImg)[0]}
                     alt={productName}
                   />
@@ -86,7 +85,7 @@ const ProductCard = ({ products = [] }) => {
                   </span>
                 </Link>
                 <div className="mt-4 px-[10px] pb-5 text-center">
-                  <a href="#">
+                  <a href="#" className="w-full h-[40px]">
                     <h5 className="text-[15px] text-slate-900 font-bold leading-5">
                       {productName}
                     </h5>
@@ -120,7 +119,6 @@ const ProductCard = ({ products = [] }) => {
             );
           })}
         </div>
-        <Pagination />
       </div>
     </section>
   );

@@ -26,7 +26,6 @@ const TopBar = () => {
   const anchorRef = useRef(null);
 
   const handleUserButton = () => {
-    console.log(prevOpen);
     setOpen((prevOpen) => !prevOpen);
   };
 
@@ -39,7 +38,6 @@ const TopBar = () => {
   };
 
   const handleLogOut = (event) => {
-    console.log("clicked");
     if (token) {
       navigate("/logout");
     }

@@ -1,28 +1,39 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 import Header from "./../../components/Header";
 import Slider from "../../components/Slider";
 import ProductCard from "../../components/ProductCard";
 import Statistic from "../../components/Statistic";
 import Footer from "../../components/Footer";
 import Loading from "../../components/Loading";
-import Categories from "../../components/Categories";
 import { slides } from "../../data/slideData";
-import { laptops } from "../../data/mockData";
+
+const GetTop8Product = async (products) => {
+  const sorted = [...products]; // Create a copy of the products array to avoid mutating the original array
+  sorted.sort((product1, product2) => product2.rating - product1.rating); // Sort the products in descending order based on the rating
+  const topProducts = sorted.slice(0, 8); // Get the top 8 products from the sorted array
+  console.log(topProducts);
+};
 
 const Home = () => {
   const [products = [], setProducts] = useState([]);
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      const response = await fetch(
-        "https://fakestoreapi.com/products?limit=12"
-      );
-      const data = await response.json();
-      setProducts(data);
+    const GetProducts = async () => {
+      await axios
+        .get("https://localhost:7249/api/Product/products")
+        .then((response) => {
+          console.log(response);
+          setProducts(response.data.list);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     };
-    fetchProducts();
-  }, []);
 
+    GetProducts();
+    setProducts(GetTop8Product(products));
+  }, []);
   return (
     <>
       <Header />
@@ -39,7 +50,7 @@ const Home = () => {
           Những Laptop phổ biến nhất
         </h1>
       </div>
-      {products.length > 0 ? <ProductCard products={laptops} /> : <Loading />}
+      {products.length > 0 ? <ProductCard products={products} /> : <Loading />}
       <Statistic />
       <Footer />
     </>

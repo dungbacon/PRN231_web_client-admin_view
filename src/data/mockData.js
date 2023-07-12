@@ -1441,7 +1441,7 @@ export const laptops = [
     categoryId: 4,
     productName: "Laptop HP VICTUS 16-e1107AX 7C140PA",
     productImg:
-      "https://laptop88.vn/media/product/6659_hp_victus_16_2022_vu__ng__6_.jpg https://images.unsplash.com/photo-1531297484001-80022131f5a1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2620&q=80 https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2670&q=80 https://images.unsplash.com/photo-1661961112951-f2bfd1f253ce?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2672&q=80 https://images.unsplash.com/photo-1512756290469-ec264b7fbf87?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2253&q=80",
+      "https://laptop88.vn/media/product/6659_hp_victus_16_2022_vu__ng__6_.jpg https://laptop88.vn/media/product/120_6659_hp_victus_16_2022_vu__ng__6_.jpg https://laptop88.vn/media/product/120_6659_hp_victus_16_2022_vu__ng__1_.jpg",
     rating: 4,
     price: 26490000,
     discount: "31",

@@ -1,10 +1,36 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import StringToHtml from "../../common_function/StringToHtml";
 import Carousel from "../Carousel";
 import { Rating } from "@material-tailwind/react";
 import { url_img_regex } from "../../common_function/regex/commonRegex";
+import Loading from "../Loading";
 
-const ProductDetail = ({ product }) => {
+const ProductDetail = ({ productId }) => {
+  const [product, setProduct] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchProductById = async () => {
+      try {
+        const response = await axios.get(
+          `https://localhost:7249/api/Product/products/${productId}`
+        );
+        const productData = response.data;
+        setProduct(productData);
+        setIsLoading(false);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchProductById();
+  }, [productId]);
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
   const formattedSalePrice = (
     product.price -
     (31 / 100) * product.price
@@ -17,9 +43,9 @@ const ProductDetail = ({ product }) => {
 
   const sentences = product.description.split(/\. /);
 
-  const imgs = ([] = product.productImg.match(url_img_regex));
+  const imgs = product.productImg.match(url_img_regex);
 
-  const handleCart = (product, redirect) => {
+  const handleCart = (product) => {
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
     const isProductExist = cart.find((item) => item.id === product.id);
     if (isProductExist) {

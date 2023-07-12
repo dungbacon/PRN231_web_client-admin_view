@@ -31,7 +31,6 @@ const LoginModule = () => {
           localStorage.setItem("token", token);
           localStorage.setItem("role", role);
 
-          console.log(role.replace('"', "") === "admin");
           setErrorMessage("");
 
           if (role.replace('"', "") === "admin") {
