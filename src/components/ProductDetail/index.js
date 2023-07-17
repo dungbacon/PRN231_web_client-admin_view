@@ -1,30 +1,24 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import StringToHtml from "../../common_function/StringToHtml";
 import Carousel from "../Carousel";
 import { Rating } from "@material-tailwind/react";
 import { url_img_regex } from "../../common_function/regex/commonRegex";
 import Loading from "../Loading";
+import { GetProductDetail } from "../../data/ProductController";
 
 const ProductDetail = ({ productId }) => {
   const [product, setProduct] = useState({});
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const fetchProductById = async () => {
-      try {
-        const response = await axios.get(
-          `https://localhost:7249/api/Product/products/${productId}`
-        );
-        const productData = response.data;
-        setProduct(productData);
+    const fetchProductById = (productId) => {
+      GetProductDetail(productId).then((response) => {
+        setProduct(response);
         setIsLoading(false);
-      } catch (error) {
-        console.error(error);
-      }
+      });
     };
 
-    fetchProductById();
+    fetchProductById(productId);
   }, [productId]);
 
   if (isLoading) {
@@ -78,7 +72,7 @@ const ProductDetail = ({ productId }) => {
       <hr className="h-[2px] block mb-[15px] mt-[5px] mx-[20px] border-[#d5e5d5]" />
       <div className="flex justify-center">
         {/* {IMAGE} */}
-        <div className="bg-white rounded mr-[10px] w-[32%]">
+        <div className="bg-white rounded mr-[10px] w-[32%] h-fit">
           <h3 className="font-sans mb-[10px] ml-[5px] w-[40%] border-b-[2px] border-b-[#d5e5d5] text-[20px] font-bold">
             Ảnh minh họa
           </h3>

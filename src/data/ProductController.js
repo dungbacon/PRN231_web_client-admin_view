@@ -23,3 +23,13 @@ export const GetProductsByCateID = async (pageSize, currentPage, id) => {
     console.log(e);
   }
 };
+
+export const GetProductDetail = async (id) => {
+  let url = `https://localhost:7249/api/Product/products/${id}`;
+  try {
+    const { data: response } = await axios.get(url);
+    return response;
+  } catch (e) {
+    console.log(e);
+  }
+};
