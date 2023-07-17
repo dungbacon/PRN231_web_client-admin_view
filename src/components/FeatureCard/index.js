@@ -10,7 +10,7 @@ const FeatureCard = ({ categories = [] }) => {
             return (
               <Link
                 key={item.categoryId}
-                to={`/categories/${item.categoryName}`}
+                to={`/categories/${item.categoryId}`}
                 className={`p-4 md:w-1/${categories.length} cursor-pointer `}
               >
                 <div className="flex rounded-lg h-full justify-center items-center bg-white flex-col">

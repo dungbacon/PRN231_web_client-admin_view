@@ -41,7 +41,10 @@ const ProductDetail = ({ productId }) => {
     currency: "VND",
   });
 
-  const sentences = product.description.split(/\. /);
+  const sentences =
+    product.description !== null
+      ? product.description.split(/\. /)
+      : "Hiện tại chưa có thông tin về sản phẩm!";
 
   const imgs = product.productImg.match(url_img_regex);
 
@@ -110,14 +113,16 @@ const ProductDetail = ({ productId }) => {
           </h3>
           <div className="overflow-y-auto w-full h-[250px]">
             <ul className="text-[14px] leading-[1.45] ml-[5px] list-disc list-inside">
-              {sentences.map((sentence, index) => {
-                return (
-                  <li key={index} className="flex items-baseline">
-                    <span className="mr-2">•</span>
-                    <p>{sentence}</p>
-                  </li>
-                );
-              })}
+              {product.description !== null
+                ? sentences.map((sentence, index) => {
+                    return (
+                      <li key={index} className="flex items-baseline">
+                        <span className="mr-2">•</span>
+                        <p>{sentence}</p>
+                      </li>
+                    );
+                  })
+                : sentences}
             </ul>
           </div>
           <h3 className="font-sans mb-[10px] ml-[5px] w-[40%] border-b-[2px] border-b-[#d5e5d5] text-[20px] font-bold">

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import Header from "./../../components/Header";
 import Slider from "../../components/Slider";
 import ProductCard from "../../components/ProductCard";
@@ -7,32 +6,21 @@ import Statistic from "../../components/Statistic";
 import Footer from "../../components/Footer";
 import Loading from "../../components/Loading";
 import { slides } from "../../data/slideData";
-
-const GetTop8Product = async (products) => {
-  const sorted = [...products]; // Create a copy of the products array to avoid mutating the original array
-  sorted.sort((product1, product2) => product2.rating - product1.rating); // Sort the products in descending order based on the rating
-  const topProducts = sorted.slice(0, 8); // Get the top 8 products from the sorted array
-  console.log(topProducts);
-};
+import { GetProducts } from "../../data/ProductController";
 
 const Home = () => {
   const [products = [], setProducts] = useState([]);
 
   useEffect(() => {
-    const GetProducts = async () => {
-      await axios
-        .get("https://localhost:7249/api/Product/products")
+    var fetchProducts = () =>
+      GetProducts(0, 0)
         .then((response) => {
-          console.log(response);
-          setProducts(response.data.list);
+          setProducts(response.list);
         })
         .catch((error) => {
-          console.error(error);
+          console.log(error);
         });
-    };
-
-    GetProducts();
-    setProducts(GetTop8Product(products));
+    fetchProducts();
   }, []);
   return (
     <>

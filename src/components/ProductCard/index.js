@@ -102,7 +102,10 @@ const ProductCard = ({ products = [] }) => {
                   </div>
                   <div className="bg-[#f3f4f6] border-[1px] border-solid border-[#e5e7eb] h-[50px] rounded text-[12px] leading-[2px] transform-none p-[5px], w-auto flex items-start overflow-hidden">
                     <p className="overflow-hidden leading-4">
-                      {description.slice(0, 100)}...
+                      {description !== null
+                        ? description.slice(0, 100)
+                        : "Hiện không có thông tin chi tiết!"}
+                      ...
                     </p>
                   </div>
                   <div className="flex items-center mt-[10px]">

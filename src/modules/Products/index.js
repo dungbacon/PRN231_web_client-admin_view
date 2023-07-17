@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useMemo } from "react";
-import axios from "axios";
 import Header from "./../../components/Header";
 import Footer from "./../../components/Footer";
 import ProductCard from "../../components/ProductCard";
@@ -8,6 +7,8 @@ import Loading from "../../components/Loading";
 import Slider from "../../components/Slider";
 import { slides } from "../../data/slideData";
 import Pagination from "../../components/Pagination";
+import { GetProducts } from "../../data/ProductController";
+
 let PageSize = 8;
 
 const Products = () => {
@@ -16,21 +17,17 @@ const Products = () => {
   const [totalPages, setTotalPages] = useState(0);
 
   useEffect(() => {
-    const GetProducts = async () => {
-      await axios
-        .get(
-          `https://localhost:7249/api/Product/products?PageSize=8&Page=${currentPage}`
-        )
-        .then((res) => {
-          setProducts(res.data.list);
-          setTotalPages(res.data.total);
+    var fetchProducts = (PageSize, currentPage) =>
+      GetProducts(PageSize, currentPage)
+        .then((response) => {
+          setProducts(response.list);
+          setTotalPages(response.total);
         })
         .catch((error) => {
-          console.error(error);
+          console.log(error);
         });
-    };
 
-    GetProducts();
+    fetchProducts(PageSize, currentPage);
   }, [currentPage, products]);
 
   const currentTableData = useMemo(() => {
