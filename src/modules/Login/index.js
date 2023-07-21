@@ -27,9 +27,11 @@ const LoginModule = () => {
         if (response.status === 200) {
           const token = response?.data?.accessToken;
           const role = response?.data?.account.role.roleDesc;
+          const accountId = response?.data?.account.accountId;
 
           localStorage.setItem("token", token);
           localStorage.setItem("role", role);
+          localStorage.setItem("accountId", accountId);
 
           setErrorMessage("");
 

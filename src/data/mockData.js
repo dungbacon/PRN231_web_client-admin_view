@@ -2194,3 +2194,14 @@ export const categoriesData = [
     isActive: true,
   },
 ];
+
+export const cartProducts = [
+  {
+    productId: 16,
+    productName: "Laptop MSI Cyborg 15 A12UCX-281VN",
+    price: 18390000,
+    productImg:
+      "https://laptop88.vn/media/product/8113_ac___msi_cyborg_15_a12ucx_281vn_2d__a.jpg https://laptop88.vn/media/product/120_8113_44961_laptop_msi_cyborg_15_a12ucx_281vn__7_.jpg https://laptop88.vn/media/product/120_8113_44961_laptop_msi_cyborg_15_a12ucx_281vn.jpg",
+    quantity: 1,
+  },
+];

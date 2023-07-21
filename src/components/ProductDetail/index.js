@@ -5,6 +5,10 @@ import { Rating } from "@material-tailwind/react";
 import { url_img_regex } from "../../common_function/regex/commonRegex";
 import Loading from "../Loading";
 import { GetProductDetail } from "../../data/ProductController";
+import {
+  formattedSalePriceService,
+  formattedPriceService,
+} from "../../common_function/service";
 
 const ProductDetail = ({ productId }) => {
   const [product, setProduct] = useState({});
@@ -25,15 +29,12 @@ const ProductDetail = ({ productId }) => {
     return <Loading />;
   }
 
-  const formattedSalePrice = (
-    product.price -
-    (31 / 100) * product.price
-  ).toLocaleString("vi-VN", { style: "currency", currency: "VND" });
+  const formattedSalePrice = formattedSalePriceService(
+    product.price,
+    product.discount
+  );
 
-  const formattedPrice = product.price.toLocaleString("vi-VN", {
-    style: "currency",
-    currency: "VND",
-  });
+  const formattedPrice = formattedPriceService(product.price);
 
   const sentences =
     product.description !== null
@@ -43,11 +44,19 @@ const ProductDetail = ({ productId }) => {
   const imgs = product.productImg.match(url_img_regex);
 
   const handleCart = (product) => {
+    console.log(product);
+    const accountId = localStorage.getItem("accountId");
+    const token = localStorage.getItem("token");
+    // if (!token || !accountId) {
+    //   alert("You have to login to use this function");
+    // } else if (token && accountId) {
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
-    const isProductExist = cart.find((item) => item.id === product.id);
+    const isProductExist = cart.find(
+      (item) => item.productId === product.productId
+    );
     if (isProductExist) {
       const updatedCart = cart.map((item) => {
-        if (item.id === product.id) {
+        if (item.productId === product.productId) {
           return {
             ...item,
             quantity: item.quantity + 1,
@@ -61,6 +70,7 @@ const ProductDetail = ({ productId }) => {
         "cart",
         JSON.stringify([...cart, { ...product, quantity: 1 }])
       );
+      // }
     }
   };
 
@@ -145,14 +155,14 @@ const ProductDetail = ({ productId }) => {
             <div className="flex justify-between">
               <button
                 className="flex items-center mr-3 justify-center rounded-md bg-red-500 px-10 py-2.5 text-center text-sm font-bold text-white hover:bg-green-700 focus:outline-none focus:ring-4 focus:ring-blue-300"
-                onClick={() => handleCart("", true)}
+                onClick={() => handleCart(product, true)}
               >
                 Mua ngay
               </button>
               <button
                 href="#"
                 className="flex items-center justify-center rounded-md bg-slate-900 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-blue-300"
-                onClick={() => handleCart("")}
+                onClick={() => handleCart(product)}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

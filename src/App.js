@@ -14,6 +14,7 @@ import Login from "./modules/Login";
 import AdminView from "./modules/Admin";
 import PrivateRoutes from "./modules/PrivateRoute";
 import Logout from "./modules/Logout";
+import UserProfile from "./modules/Profiles/UserProfile";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
         <Route path="categories/:id" element={<CategoryProducts />}></Route>
         <Route path="cart" element={<Cart />}></Route>
         <Route path="logout" element={<Logout />}></Route>
+        <Route path="profile/*" element={<UserProfile />}></Route>
 
         <Route element={<PrivateRoutes />}>
           <Route path="admin/*" element={<AdminView />}></Route>

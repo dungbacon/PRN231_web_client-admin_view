@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { icon } from "@fortawesome/fontawesome-svg-core/import.macro";
-import DropDown from "./DropDown";
 import LinkHeader from "./LinkHeader";
+import DropDown from "./DropDown";
 
 const navigations = [
   { name: "Trang chủ", path: "/" },
@@ -14,18 +14,9 @@ const navigations = [
 
 const Header = () => {
   const navigate = useNavigate();
-  const token = localStorage.getItem("token");
 
   const hanldeCartBtn = () => {
     navigate("/cart");
-  };
-
-  const hanldeBtn = () => {
-    if (token) {
-      navigate("/logout");
-    } else {
-      navigate("/login");
-    }
   };
 
   return (
@@ -60,29 +51,15 @@ const Header = () => {
         </nav>
         <div className="flex justify-around absolute right-0">
           <button
-            className="capitalize mr-5 inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-green-500 hover:text-white font-semibold rounded text-base mt-4 md:mt-0"
+            className="relative capitalize mr-5 inline-flex items-center border-0 py-1 px-3 focus:outline-none hover:bg-gray-100 font-semibold rounded text-base mt-4 md:mt-0"
             onClick={() => hanldeCartBtn()}
           >
-            Giỏ hàng
             <FontAwesomeIcon
-              className="pl-1"
+              className="w-[30px] h-[30px]"
               icon={icon({ name: "cart-arrow-down" })}
             />
           </button>
-          {
-            <button
-              className="capitalize inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-green-500 hover:text-white font-semibold rounded text-base mt-4 md:mt-0"
-              onClick={() => hanldeBtn()}
-            >
-              {token ? "Đăng xuất" : "Đăng nhập"}
-              <FontAwesomeIcon
-                className="pl-1"
-                icon={
-                  token ? icon({ name: "sign-in" }) : icon({ name: "sign-out" })
-                }
-              />
-            </button>
-          }
+          <DropDown />
         </div>
       </div>
     </header>

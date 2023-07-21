@@ -1,13 +1,10 @@
 import React from "react";
+import ReactLoading from "react-loading";
 
 const Loading = () => {
-  let circleCommonClasses = "h-2.5 w-2.5 bg-current rounded-full";
-
   return (
-    <div className="flex justify-center items-center mt-10">
-      <div className={`${circleCommonClasses} mr-1`}></div>
-      <div className={`${circleCommonClasses} mr-1`}></div>
-      <div className={`${circleCommonClasses}`}></div>
+    <div className="fixed inset-0  bg-opacity-30 backdrop-blur-sm z-20 flex justify-center items-center text-sm shadow-md">
+      <ReactLoading type={"spin"} color={"#03fc4e"} height={100} width={100} />
     </div>
   );
 };
