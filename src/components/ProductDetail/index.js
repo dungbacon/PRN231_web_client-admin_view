@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import StringToHtml from "../../common_function/StringToHtml";
 import Carousel from "../Carousel";
 import { Rating } from "@material-tailwind/react";
@@ -9,8 +9,12 @@ import {
   formattedSalePriceService,
   formattedPriceService,
 } from "../../common_function/service";
+import { useNavigate } from "react-router-dom";
+import NotificationContext from "../../context/NotificationContext";
 
 const ProductDetail = ({ productId }) => {
+  const { notificationHandler } = useContext(NotificationContext);
+  const navigate = useNavigate();
   const [product, setProduct] = useState({});
   const [isLoading, setIsLoading] = useState(true);
 
@@ -43,8 +47,7 @@ const ProductDetail = ({ productId }) => {
 
   const imgs = product.productImg.match(url_img_regex);
 
-  const handleCart = (product) => {
-    console.log(product);
+  const handleCart = (product, buyNow) => {
     const accountId = localStorage.getItem("accountId");
     const token = localStorage.getItem("token");
     // if (!token || !accountId) {
@@ -71,6 +74,15 @@ const ProductDetail = ({ productId }) => {
         JSON.stringify([...cart, { ...product, quantity: 1 }])
       );
       // }
+    }
+
+    notificationHandler({
+      type: "success",
+      message: "Thêm sản phẩm vào giỏ hàng thành công!",
+    });
+
+    if (buyNow) {
+      navigate("/cart");
     }
   };
 

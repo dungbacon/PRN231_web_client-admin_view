@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { AddAddress } from "../../data/AddressController";
+import NotificationContext from "../../context/NotificationContext";
 
 const Modal = ({ visible, onClose }) => {
+  const { notificationHandler } = useContext(NotificationContext);
   const [address, setAddress] = useState("");
   const accountId = localStorage.getItem("accountId");
 
@@ -15,7 +17,28 @@ const Modal = ({ visible, onClose }) => {
         accountId: accountId,
         addressDesc: address,
       };
-      AddAddress(reqAddress);
+      AddAddress(reqAddress)
+        .then((response) => {
+          if (response.status === 200) {
+            notificationHandler({
+              type: "success",
+              message: "Thêm địa chỉ thành công!",
+            });
+          } else {
+            notificationHandler({
+              type: "warning",
+              message: "Vui lòng đăng nhập lại!",
+            });
+          }
+        })
+        .catch((error) => {
+          if (error) {
+            notificationHandler({
+              type: "error",
+              message: "Thêm địa chỉ không thành công!",
+            });
+          }
+        });
     }
   };
 

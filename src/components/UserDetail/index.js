@@ -2,6 +2,8 @@ import React, { useContext, useState } from "react";
 import ReactDataGrid from "@inovua/reactdatagrid-community";
 import "@inovua/reactdatagrid-community/index.css";
 import NotificationContext from "../../context/NotificationContext";
+import { UpdateUser } from "../../data/AccountController";
+import dayjs from "dayjs";
 
 const gridStyle = { minHeight: 550 };
 
@@ -15,7 +17,7 @@ let initialInputs = {
   fullName: "",
   email: "",
   password: "",
-  phoneNumber: "",
+  phone: "",
 };
 
 function UserDetail({ data }) {
@@ -26,7 +28,8 @@ function UserDetail({ data }) {
       fullName: data.fullName,
       email: data.email,
       password: data.password,
-      phoneNumber: data.phone || "",
+      phone: data.phone || "",
+      updatedDate: "",
     };
   }
 
@@ -34,6 +37,9 @@ function UserDetail({ data }) {
   const [isChecked, setIsChecked] = useState(false);
 
   function HandleEditBtn() {
+    const currentDate = dayjs();
+    const accountId = localStorage.getItem("accountId");
+    const jwtToken = localStorage.getItem("token");
     if (isChecked == false) {
       notificationHandler({
         type: "warning",
@@ -50,6 +56,10 @@ function UserDetail({ data }) {
         message: "Họ tên, Email, mật khẩu không được để trống!",
       });
     }
+    profile.updatedDate = currentDate.format("MM/DD/YYYY");
+    UpdateUser(profile, accountId, jwtToken).then((response) => {
+      console.log(response);
+    });
   }
 
   const handleCheckboxChange = (event) => {
@@ -126,11 +136,8 @@ function UserDetail({ data }) {
                   type="text"
                   name="phone"
                   id="phone"
-                  value={
-                    profile.phone
-                      ? profile.phone
-                      : "Vui lòng nhập số điện thoại!"
-                  }
+                  placeholder={!profile.phone && "Vui lòng nhập số điện thoại!"}
+                  value={profile.phone}
                   onChange={(e) => handleOnchange(e)}
                 />
               </dd>

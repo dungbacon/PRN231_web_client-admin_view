@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
@@ -9,15 +9,28 @@ import { AddOrder } from "../../data/OrderController";
 import { GetAddresses, DeleteAddress } from "../../data/AddressController";
 import Modal from "../../components/Modal";
 import dayjs from "dayjs";
+import Notification from "../../components/Notification";
+import NotificationContext from "../../context/NotificationContext";
+import { ThankYou } from "../../components/ThankYou";
+
+const wait = (milliseconds) => {
+  return new Promise((resolve) => {
+    setTimeout(resolve, milliseconds);
+  });
+};
 
 const Cart = () => {
+  const { notificationHandler } = useContext(NotificationContext);
   const navigate = useNavigate();
+  const [allowAddOrder, setAllowAddOrder] = useState(false);
+  const [loadAddresses, setLoadAddresses] = useState(false);
   const [total, setTotal] = useState(0);
   const [done, setDone] = useState(undefined);
   const [addressId, setAddressId] = useState(0);
   const [addresses, setAddresses] = useState([]);
   const [visible, setVisible] = useState(false);
   const [visibleBtn, setVisibleBtn] = useState(true);
+  const [loadThankYou, setLoadThankYou] = useState(false);
   const carts = JSON.parse(localStorage.getItem("cart")) || [];
   const accountId = localStorage.getItem("accountId");
 
@@ -28,12 +41,13 @@ const Cart = () => {
         setDone(true);
       });
     };
+
     fetchAddresses(accountId);
-  }, [visible]);
+  }, [visible, addressId, loadAddresses]);
 
   useEffect(() => {
     const total = carts.reduce((acc, item) => {
-      return acc + item.price * item.quantity;
+      if (item !== null) return acc + item.price * item.quantity;
     }, 0);
     setTotal(total);
   }, [carts]);
@@ -43,11 +57,21 @@ const Cart = () => {
   const handleDeleteAddress = () => {
     DeleteAddress(addressId).then((response) => {
       navigate("/cart");
+      setLoadAddresses(true);
     });
   };
 
-  const HandleCheckoutBtn = () => {
+  const HandleCheckoutBtn = async () => {
     setDone(false);
+    if (addressId === 0) {
+      setDone(true);
+      notificationHandler({
+        type: "warning",
+        message: "Vui lòng chọn địa chỉ!",
+      });
+      return;
+    }
+
     const currentDate = dayjs();
     let orderRequest = {
       order: {
@@ -70,22 +94,42 @@ const Cart = () => {
         updatedDate: currentDate.format("MM/DD/YYYY"),
       };
     });
-
-    AddOrder(orderRequest)
-      .then((response) => {
-        setTimeout(() => {
-          alert("Add order successfully!");
-          setDone(true);
-        }, 5000);
-      })
-      .catch((err) => {
-        alert("Add failed! Please check your internet condition!");
-      });
+    try {
+      var response = await AddOrder(orderRequest);
+      if (response.status === 200) {
+        notificationHandler({
+          type: "success",
+          message: "Thêm đơn hàng thành công!",
+        });
+        setDone(true);
+        setLoadThankYou(true);
+        await wait(5000);
+        localStorage.removeItem("cart");
+      }
+    } catch (err) {
+      if (err) {
+        notificationHandler({
+          type: "error",
+          message: "Có lỗi xảy ra. Vui lòng thử lại sau ít phút!",
+        });
+      }
+    }
   };
+
+  if (carts.length === 0 || carts === undefined) {
+    return (
+      <div className="text-center text-4xl h-screen flex-col justify-center">
+        <div>
+          <p>Giỏ hàng trống!</p>
+          <Link to={"/"}>Tiếp tục</Link>
+        </div>
+      </div>
+    );
+  }
 
   const handleInc = (id) => {
     const updatedCart = carts.map((item) => {
-      if (item.productId === id) {
+      if (item.productId === id && item.stockQuantity >= item.quantity + 1) {
         return {
           ...item,
           quantity: item.quantity + 1,
@@ -98,15 +142,28 @@ const Cart = () => {
   };
 
   const handleDec = (id) => {
-    const updatedCart = carts.map((item) => {
-      if (item.productId === id) {
-        return {
-          ...item,
-          quantity: item.quantity - 1,
-        };
-      }
-      return item;
-    });
+    const updatedCart = carts
+      .filter((item) => {
+        if (item.quantity === 1) {
+          var confirm = window.confirm(
+            "Bạn có muốn xóa sản phẩm này ra khỏi giỏ hàng không?"
+          );
+          if (confirm) {
+            return item.quantity !== 1;
+          }
+        }
+        return item;
+      })
+      .map((item) => {
+        if (item.productId === id) {
+          return {
+            ...item,
+            quantity: item.quantity - 1,
+          };
+        }
+        return item;
+      });
+    console.log(updatedCart);
     localStorage.setItem("cart", JSON.stringify(updatedCart));
     navigate("/cart");
   };
@@ -117,22 +174,13 @@ const Cart = () => {
     navigate("/cart");
   };
 
-  if (carts.length === 0) {
-    return (
-      <div className="text-center text-4xl h-screen flex-col justify-center">
-        <div>
-          <p>Giỏ hàng trống!</p>
-          <Link to={"/"}>Tiếp tục</Link>
-        </div>
-      </div>
-    );
-  }
-
   return !done ? (
     <Loading />
   ) : (
     <div>
+      <ThankYou visible={loadThankYou} />
       <Modal visible={visible} onClose={hanleOnClose} />
+      <Notification />
       <Header />
       <div className="container mx-auto mt-[40px]">
         <div className="flex shadow-md my-10">
@@ -158,66 +206,68 @@ const Cart = () => {
               </h3>
             </div>
             {carts?.map((cart) => {
-              return (
-                <div
-                  key={cart?.productId}
-                  className="flex items-center hover:bg-gray-100 -mx-8 px-6 py-5"
-                >
-                  <div className="flex w-2/5">
-                    <Link to={`/products/${cart?.productId}`} className="w-20">
-                      <img
-                        className="h-24"
-                        src={cart?.productImg.match(url_img_regex)[0]}
-                        alt={cart?.productName}
-                      />
-                    </Link>
-                    <div className="flex flex-col justify-between ml-4 flex-grow">
-                      <span className="font-bold text-sm">
-                        {cart?.productName}
-                      </span>
-                      {/* <span className="text-red-500 text-xs capitalize">
-                        {cart?.category}
-                      </span> */}
-                      <div
-                        className="font-semibold hover:text-red-500 text-gray-500 text-xs cursor-pointer"
-                        onClick={() => removeProduct(cart?.productId)}
+              if (cart !== null || cart !== undefined) {
+                return (
+                  <div
+                    key={cart?.productId}
+                    className="flex items-center hover:bg-gray-100 -mx-8 px-6 py-5"
+                  >
+                    <div className="flex w-2/5">
+                      <Link
+                        to={`/products/${cart?.productId}`}
+                        className="w-20"
                       >
-                        Xóa
+                        <img
+                          className="h-24"
+                          src={cart?.productImg.match(url_img_regex)[0]}
+                          alt={cart?.productName}
+                        />
+                      </Link>
+                      <div className="flex flex-col justify-between ml-4 flex-grow">
+                        <span className="font-bold text-sm">
+                          {cart?.productName}
+                        </span>
+                        <div
+                          className="font-semibold hover:text-red-500 text-gray-500 text-xs cursor-pointer"
+                          onClick={() => removeProduct(cart?.productId)}
+                        >
+                          Xóa
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <div className="flex justify-center w-1/5">
-                    <svg
-                      className="fill-current text-gray-600 w-3 cursor-pointer"
-                      viewBox="0 0 448 512"
-                      onClick={() => handleDec(cart?.productId)}
-                    >
-                      <path d="M416 208H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h384c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z" />
-                    </svg>
+                    <div className="flex justify-center w-1/5">
+                      <svg
+                        className="fill-current text-gray-600 w-3 cursor-pointer"
+                        viewBox="0 0 448 512"
+                        onClick={() => handleDec(cart?.productId)}
+                      >
+                        <path d="M416 208H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h384c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z" />
+                      </svg>
 
-                    <input
-                      className="mx-2 border text-center w-8 text-base"
-                      type="text"
-                      value={cart?.quantity}
-                      readOnly={true}
-                    />
+                      <input
+                        className="mx-2 border text-center w-8 text-base"
+                        type="text"
+                        value={cart?.quantity}
+                        readOnly={true}
+                      />
 
-                    <svg
-                      className="fill-current text-gray-600 w-3 cursor-pointer"
-                      onClick={() => handleInc(cart?.productId)}
-                      viewBox="0 0 448 512"
-                    >
-                      <path d="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z" />
-                    </svg>
+                      <svg
+                        className="fill-current text-gray-600 w-3 cursor-pointer"
+                        onClick={() => handleInc(cart?.productId)}
+                        viewBox="0 0 448 512"
+                      >
+                        <path d="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z" />
+                      </svg>
+                    </div>
+                    <span className="text-center w-1/5 font-semibold text-sm">
+                      {formattedPriceService(cart?.price)}
+                    </span>
+                    <span className="text-center w-1/5 font-semibold text-sm">
+                      {formattedPriceService(cart?.price * cart?.quantity)}
+                    </span>
                   </div>
-                  <span className="text-center w-1/5 font-semibold text-sm">
-                    {formattedPriceService(cart?.price)}
-                  </span>
-                  <span className="text-center w-1/5 font-semibold text-sm">
-                    {formattedPriceService(cart?.price * cart?.quantity)}
-                  </span>
-                </div>
-              );
+                );
+              }
             })}
 
             <Link
@@ -245,7 +295,7 @@ const Cart = () => {
               </span>
             </div>
             <div>
-              <label className="font-medium inline-block mb-3 text-sm uppercase">
+              <label className="font-semibold inline-block mb-3 text-sm uppercase">
                 Phí vận chuyển
               </label>
               <select className="block p-2 text-gray-600 w-full text-sm border rounded">
@@ -264,20 +314,27 @@ const Cart = () => {
                 className="block p-2 text-gray-600 w-full text-sm border rounded"
                 onChange={(e) => {
                   const selectedOption = e.target.value;
-                  if (selectedOption === "Add new address") {
+                  if (selectedOption === "AddNew") {
                     setVisible(true);
-                  } else {
+                    setVisibleBtn(true);
+                  } else if (
+                    selectedOption !== "default" &&
+                    selectedOption !== "AddNew"
+                  ) {
                     setAddressId(selectedOption);
                     setVisibleBtn(false);
                   }
                 }}
               >
-                {addresses.map((item) => (
+                <option className="text-center font-semibold" value="default">
+                  Vui lòng chọn một địa chỉ hoặc thêm địa chỉ mới
+                </option>
+                {addresses?.map((item) => (
                   <option key={item.addressId} value={item.addressId}>
                     {item.addressDesc}
                   </option>
                 ))}
-                <option value="Add new address">Add new address</option>
+                <option value="AddNew">Thêm địa chỉ mới</option>
               </select>
             </div>
             <div hidden={visibleBtn} className="flex justify-end w-full mt-5">
