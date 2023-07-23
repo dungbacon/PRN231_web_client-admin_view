@@ -22,7 +22,6 @@ const wait = (milliseconds) => {
 const Cart = () => {
   const { notificationHandler } = useContext(NotificationContext);
   const navigate = useNavigate();
-  const [allowAddOrder, setAllowAddOrder] = useState(false);
   const [loadAddresses, setLoadAddresses] = useState(false);
   const [total, setTotal] = useState(0);
   const [done, setDone] = useState(undefined);

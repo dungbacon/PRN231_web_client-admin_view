@@ -4,6 +4,8 @@ import "@inovua/reactdatagrid-community/index.css";
 import NotificationContext from "../../context/NotificationContext";
 import { UpdateUser } from "../../data/AccountController";
 import dayjs from "dayjs";
+import Loading from "../Loading";
+import Cookies from "js-cookie";
 
 const gridStyle = { minHeight: 550 };
 
@@ -21,8 +23,6 @@ let initialInputs = {
 };
 
 function UserDetail({ data }) {
-  const { notificationHandler } = useContext(NotificationContext);
-
   if (data) {
     initialInputs = {
       fullName: data.fullName,
@@ -32,6 +32,7 @@ function UserDetail({ data }) {
       updatedDate: "",
     };
   }
+  const { notificationHandler } = useContext(NotificationContext);
 
   const [profile, setProfile] = useState(initialInputs);
   const [isChecked, setIsChecked] = useState(false);
@@ -39,7 +40,7 @@ function UserDetail({ data }) {
   function HandleEditBtn() {
     const currentDate = dayjs();
     const accountId = localStorage.getItem("accountId");
-    const jwtToken = localStorage.getItem("token");
+    const jwtToken = Cookies.get("jwtToken");
     if (isChecked == false) {
       notificationHandler({
         type: "warning",
@@ -58,7 +59,12 @@ function UserDetail({ data }) {
     }
     profile.updatedDate = currentDate.format("MM/DD/YYYY");
     UpdateUser(profile, accountId, jwtToken).then((response) => {
-      console.log(response);
+      if (response.status === 200) {
+        notificationHandler({
+          type: "success",
+          message: "Cập nhật thông tin thành công!",
+        });
+      }
     });
   }
 
@@ -136,7 +142,7 @@ function UserDetail({ data }) {
                   type="text"
                   name="phone"
                   id="phone"
-                  placeholder={!profile.phone && "Vui lòng nhập số điện thoại!"}
+                  placeholder="Vui lòng nhập số điện thoại!"
                   value={profile.phone}
                   onChange={(e) => handleOnchange(e)}
                 />

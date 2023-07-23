@@ -1,4 +1,3 @@
-import react from "react";
 import Home from "./modules/Home";
 import { Routes, Route } from "react-router-dom";
 import "./App.css";
@@ -14,7 +13,7 @@ import Login from "./modules/Login";
 import AdminView from "./modules/Admin";
 import PrivateRoutes from "./modules/PrivateRoute";
 import Logout from "./modules/Logout";
-import UserProfile from "./modules/Profiles/UserProfile";
+import UserProfile from "./modules/Profiles";
 
 function App() {
   return (

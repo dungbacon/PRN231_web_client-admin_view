@@ -1,8 +1,9 @@
+import Cookies from "js-cookie";
 import React from "react";
 import { Navigate } from "react-router-dom";
 
 const Logout = () => {
-  localStorage.removeItem("token");
+  Cookies.remove("jwtToken");
   localStorage.removeItem("role");
   localStorage.removeItem("accountId");
 

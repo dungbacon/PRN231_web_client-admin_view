@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { icon } from "@fortawesome/fontawesome-svg-core/import.macro";
+import Cookies from "js-cookie";
 
 const DropDown = () => {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
-  const token = localStorage.getItem("token");
+  const token = Cookies.get("jwtToken");
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
@@ -59,7 +60,7 @@ const DropDown = () => {
                   Lịch sử
                 </a>
                 <a
-                  href="logout"
+                  href="/logout"
                   className="text-gray-700 block px-4 py-2 text-sm capitalize font-semibold hover:bg-gray-100"
                   id="menu-item-2"
                 >
@@ -71,7 +72,7 @@ const DropDown = () => {
             <div className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
               <div className="py-1" role="none">
                 <a
-                  href="login"
+                  href="/login"
                   className="text-gray-700 block px-4 py-2 text-sm capitalize font-semibold hover:bg-gray-100"
                   id="menu-item-2"
                 >

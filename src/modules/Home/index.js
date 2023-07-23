@@ -7,6 +7,7 @@ import Footer from "../../components/Footer";
 import Loading from "../../components/Loading";
 import { slides } from "../../data/slideData";
 import { GetProducts } from "../../data/ProductController";
+import Notification from "../../components/Notification";
 
 const Home = () => {
   const [products = [], setProducts] = useState([]);
@@ -24,6 +25,7 @@ const Home = () => {
   }, []);
   return (
     <>
+      <Notification />
       <Header />
       <Slider
         slides={slides}

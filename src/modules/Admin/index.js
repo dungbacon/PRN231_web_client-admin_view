@@ -5,7 +5,7 @@ import { Routes, Route } from "react-router-dom";
 import TopBar from "./Global/TopBar";
 import SideBar from "./Global/SideBar";
 import DashBoard from "./DashBoard";
-import Team from "./Team";
+import Category from "./Category";
 import Contacts from "./Contacts";
 import Invoices from "./Invoices";
 import Form from "./Form";
@@ -24,11 +24,11 @@ const AdminView = () => {
         <CssBaseline />
         <div className="app">
           <SideBar />
-          <main className="content" style={{ overflow: "hidden" }}>
+          <main className="content h-[auto]" style={{ overflowX: "hidden"}}>
             <TopBar />
             <Routes>
               <Route path="/" element={<DashBoard />} />
-              <Route path="/team" element={<Team />} />
+              <Route path="/category" element={<Category />} />
               <Route path="/contacts" element={<Contacts />} />
               <Route path="/invoices" element={<Invoices />} />
               <Route path="/form" element={<Form />} />

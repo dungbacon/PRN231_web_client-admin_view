@@ -11,6 +11,7 @@ import {
 } from "../../common_function/service";
 import { useNavigate } from "react-router-dom";
 import NotificationContext from "../../context/NotificationContext";
+import Cookies from "js-cookie";
 
 const ProductDetail = ({ productId }) => {
   const { notificationHandler } = useContext(NotificationContext);
@@ -49,40 +50,42 @@ const ProductDetail = ({ productId }) => {
 
   const handleCart = (product, buyNow) => {
     const accountId = localStorage.getItem("accountId");
-    const token = localStorage.getItem("token");
-    // if (!token || !accountId) {
-    //   alert("You have to login to use this function");
-    // } else if (token && accountId) {
-    const cart = JSON.parse(localStorage.getItem("cart")) || [];
-    const isProductExist = cart.find(
-      (item) => item.productId === product.productId
-    );
-    if (isProductExist) {
-      const updatedCart = cart.map((item) => {
-        if (item.productId === product.productId) {
-          return {
-            ...item,
-            quantity: item.quantity + 1,
-          };
-        }
-        return item;
+    const token = Cookies.get("jwtToken");
+    if (!token || !accountId) {
+      notificationHandler({
+        type: "warning",
+        message: "Vui lòng đăng nhập để sử dụng chức năng!",
       });
-      localStorage.setItem("cart", JSON.stringify(updatedCart));
-    } else {
-      localStorage.setItem(
-        "cart",
-        JSON.stringify([...cart, { ...product, quantity: 1 }])
+    } else if (token && accountId) {
+      const cart = JSON.parse(localStorage.getItem("cart")) || [];
+      const isProductExist = cart.find(
+        (item) => item.productId === product.productId
       );
-      // }
-    }
+      if (isProductExist) {
+        const updatedCart = cart.map((item) => {
+          if (item.productId === product.productId) {
+            return {
+              ...item,
+              quantity: item.quantity + 1,
+            };
+          }
+          return item;
+        });
+        localStorage.setItem("cart", JSON.stringify(updatedCart));
+      } else {
+        localStorage.setItem(
+          "cart",
+          JSON.stringify([...cart, { ...product, quantity: 1 }])
+        );
+      }
+      notificationHandler({
+        type: "success",
+        message: "Thêm sản phẩm vào giỏ hàng thành công!",
+      });
 
-    notificationHandler({
-      type: "success",
-      message: "Thêm sản phẩm vào giỏ hàng thành công!",
-    });
-
-    if (buyNow) {
-      navigate("/cart");
+      if (buyNow) {
+        navigate("/cart");
+      }
     }
   };
 
@@ -197,7 +200,7 @@ const ProductDetail = ({ productId }) => {
         </div>
 
         {/* {IMAGE} */}
-        <div className=" bg-white rounded w-[32%] h-fit">
+        <div className=" bg-white rounded w-[32%]">
           <h3 className="font-sans mb-[10px] ml-[5px] w-[40%] border-b-[2px] border-b-[#d5e5d5] text-[20px] font-bold">
             Thông số kĩ thuật
           </h3>

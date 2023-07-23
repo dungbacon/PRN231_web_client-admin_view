@@ -5,10 +5,29 @@ import { url_img_regex } from "../../common_function/regex/commonRegex";
 import Search from "../Search";
 import DropdownButton from "../DropdownButton";
 
+const PriceAfterDiscount = (price, discount) => {
+  return (price - (discount / 100) * price).toLocaleString("vi-VN", {
+    style: "currency",
+    currency: "VND",
+  });
+};
+
+const GetDisplayImg = (imgs) => {
+  return imgs.match(url_img_regex);
+};
+
+const PriceBeforeDiscount = (price) => {
+  return price.toLocaleString("vi-VN", {
+    style: "currency",
+    currency: "VND",
+  });
+};
+
 const ProductCard = ({ products = [] }) => {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [searchPrice, setSearchPrice] = useState(500000000);
   const [search, setSearch] = useState("");
+  const [imgIndex, setImgIndex] = useState(0);
 
   const GetPrice = (value) => {
     setSearchPrice(value);
@@ -26,24 +45,6 @@ const ProductCard = ({ products = [] }) => {
     filtered = filtered.filter((item) => item.price <= searchPrice);
     setFilteredProducts(filtered);
   }, [search, searchPrice, products]);
-
-  const PriceAfterDiscount = (price, discount) => {
-    return (price - (discount / 100) * price).toLocaleString("vi-VN", {
-      style: "currency",
-      currency: "VND",
-    });
-  };
-
-  const GetDisplayImg = (imgs) => {
-    return imgs.match(url_img_regex);
-  };
-
-  const PriceBeforeDiscount = (price) => {
-    return price.toLocaleString("vi-VN", {
-      style: "currency",
-      currency: "VND",
-    });
-  };
 
   return (
     <section className="text-gray-600 my-10">
@@ -77,7 +78,7 @@ const ProductCard = ({ products = [] }) => {
                 >
                   <img
                     className="object-contain object-center w-full h-full block"
-                    src={GetDisplayImg(productImg)[0]}
+                    src={GetDisplayImg(productImg)[imgIndex]}
                     alt={productName}
                   />
                   <span className="absolute top-0 left-0 m-2 rounded-full font-bold bg-black px-2 text-center text-sm text-white">

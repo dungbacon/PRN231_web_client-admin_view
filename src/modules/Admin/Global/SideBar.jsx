@@ -58,7 +58,7 @@ const SideBar = () => {
         },
       }}
     >
-      <ProSidebar collapsed={isCollapsed}>
+      <ProSidebar height="auto" collapsed={isCollapsed}>
         <Menu iconShape="">
           <MenuItem
             onClick={() => {
@@ -134,8 +134,8 @@ const SideBar = () => {
               Data
             </Typography>
             <Item
-              title="Manage Team"
-              to="/admin/team"
+              title="Manage Category"
+              to="/admin/category"
               icon={<PeopleOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}

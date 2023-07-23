@@ -1,11 +1,14 @@
 import { AccountBoxOutlined } from "@mui/icons-material";
 import axios from "axios";
 
-export const GetUserById = async (accountId) => {
+export const GetUserById = async (accountId, jwtToken) => {
   let url = `https://localhost:7249/api/Account/${accountId}`;
   try {
-    const { data: response } = await axios.get(url);
-    return response;
+    return await axios.get(url, {
+      headers: {
+        Authorization: `Bearer ${jwtToken}`, // Attach the JWT token in the request headers
+      },
+    });
   } catch (e) {
     console.log(e);
   }

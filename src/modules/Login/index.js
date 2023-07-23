@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Header from "../../components/Login/Header";
 import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
+import Cookies from "js-cookie";
 
 const LoginModule = () => {
   const navigate = useNavigate();
@@ -28,7 +29,9 @@ const LoginModule = () => {
           const token = response?.data?.accessToken;
           const role = response?.data?.account.role.roleDesc;
           const accountId = response?.data?.account.accountId;
-
+          const expirationTime = new Date();
+          expirationTime.setTime(expirationTime.getTime() + 30 * 60 * 1000);
+          Cookies.set("jwtToken", token, { expires: expirationTime });
           localStorage.setItem("token", token);
           localStorage.setItem("role", role);
           localStorage.setItem("accountId", accountId);

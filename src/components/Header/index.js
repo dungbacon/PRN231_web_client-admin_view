@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { icon } from "@fortawesome/fontawesome-svg-core/import.macro";
 import LinkHeader from "./LinkHeader";
 import DropDown from "./DropDown";
+import NotificationContext from "../../context/NotificationContext";
+import Cookies from "js-cookie";
 
 const navigations = [
   { name: "Trang chủ", path: "/" },
@@ -13,10 +15,20 @@ const navigations = [
 ];
 
 const Header = () => {
+  const { notificationHandler } = useContext(NotificationContext);
+  const jwtToken = Cookies.get("jwtToken");
+
   const navigate = useNavigate();
 
   const hanldeCartBtn = () => {
-    navigate("/cart");
+    if (!jwtToken) {
+      notificationHandler({
+        type: "warning",
+        message: "Vui lòng đăng nhập để sử dụng chức năng!",
+      });
+    } else {
+      navigate("/cart");
+    }
   };
 
   return (
