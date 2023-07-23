@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { tokens } from "../../../theme";
 import { useTheme, Box } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
@@ -10,8 +10,11 @@ import {
   AddNewCategory,
   GetCategories,
 } from "../../../data/CategoryController";
+import UpdateModal from "../../../components/Admin/Category/UpdateModal";
+import NotificationContext from "../../../context/NotificationContext";
 
 const Category = () => {
+  const { notificationHandler } = useContext(NotificationContext);
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [formData, setFormData] = useState({
@@ -19,6 +22,9 @@ const Category = () => {
     categoryImg: null,
   });
   const [categories, setCategories] = useState([]);
+  const [visibleModal, setVisibleModal] = useState(false);
+  const [modalData, setModalData] = useState({});
+  const [loadCategory, setLoadCategory] = useState(false);
 
   useEffect(() => {
     GetCategories().then((response) => {
@@ -26,7 +32,7 @@ const Category = () => {
         setCategories(response.data);
       }
     });
-  }, []);
+  }, [loadCategory]);
 
   const getRowId = (row) => {
     return row.categoryId;
@@ -41,7 +47,7 @@ const Category = () => {
     },
     {
       field: "categoryName",
-      headerName: "Name",
+      headerName: "Tên",
       flex: 1,
       headerAlign: "center",
       align: "center",
@@ -52,6 +58,7 @@ const Category = () => {
       headerName: "Create",
       headerAlign: "center",
       align: "center",
+      flex: 1,
     },
     {
       field: "updatedDate",
@@ -69,7 +76,7 @@ const Category = () => {
     },
     {
       field: "categoryImg",
-      headerName: "Img",
+      headerName: "Ảnh",
       flex: 1,
       headerAlign: "center",
       align: "center",
@@ -103,15 +110,46 @@ const Category = () => {
           isActive: 1,
         };
         AddNewCategory(request, jwtToken).then((response) => {
-          console.log(response);
+          setLoadCategory(true);
+          if (response.status === 200) {
+            notificationHandler({
+              type: "success",
+              message: "Thêm Danh mục thành công!",
+            });
+          } else {
+            notificationHandler({
+              type: "error",
+              message: "Thêm Danh mục thất bại!",
+            });
+          }
         });
       }
     });
   };
 
+  const handleRowSelection = (selectionModel) => {
+    setModalData({
+      categoryId: selectionModel.row.categoryId,
+      categoryName: selectionModel.row.categoryName,
+      categoryImg: selectionModel.row.categoryImg,
+    });
+
+    setVisibleModal(!visibleModal);
+  };
+
+  const hanleOnClose = () => {
+    setVisibleModal(!visibleModal);
+    setModalData(null);
+  };
+
   return (
     <div className="my-[10px] mx-[20px]">
-      <AdminHeader title="CREATE Category" subtitle="Create a New Category" />
+      <UpdateModal
+        visible={visibleModal}
+        onClose={hanleOnClose}
+        data={modalData}
+      />
+      <AdminHeader title="TẠO DANH MỤC" subtitle="Tạo danh mục mới" />
       <form onSubmit={handleFormSubmit}>
         <div className="flex items-center justify-between">
           <div className="mb-4 w-[55%]">
@@ -119,7 +157,7 @@ const Category = () => {
               htmlFor="categoryName"
               className="mb-2 text-sm text-gray-900 dark:text-white font-bold"
             >
-              Category Name:
+              Tên:
             </label>
             <input
               type="text"
@@ -135,7 +173,7 @@ const Category = () => {
               htmlFor="categoryImg"
               className="mb-2 text-sm font-bold text-gray-900 dark:text-white"
             >
-              Category Image:
+              Ảnh:
             </label>
             <input
               className="w-full text-sm p-[5px] text-gray-900 bg-white dark:bg-gray-700 border border-gray-300 rounded-lg cursor-pointer dark:text-gray-400 focus:outline-none dark:border-gray-600 dark:placeholder-gray-400"
@@ -150,7 +188,7 @@ const Category = () => {
           type="submit"
           className="px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:outline-none"
         >
-          Save
+          Lưu
         </button>
       </form>
       <Box
@@ -183,13 +221,13 @@ const Category = () => {
         }}
       >
         <DataGrid
-          checkboxSelection
           rows={categories}
           getRowId={getRowId}
           columns={columns}
           initialState={{
             pagination: { paginationModel: { pageSize: 5 } },
           }}
+          onRowClick={handleRowSelection}
           pageSizeOptions={[5, 10, 25]}
         />
       </Box>

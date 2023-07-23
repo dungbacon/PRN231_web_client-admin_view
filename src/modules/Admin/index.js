@@ -14,6 +14,7 @@ import FAQ from "./FAQ";
 import Bar from "./Bar";
 import Pie from "./Pie";
 import Line from "./Line";
+import Notification from "../../components/Notification";
 
 const AdminView = () => {
   const [theme, colorMode] = useMode();
@@ -24,7 +25,8 @@ const AdminView = () => {
         <CssBaseline />
         <div className="app">
           <SideBar />
-          <main className="content h-[auto]" style={{ overflowX: "hidden"}}>
+          <main className="content h-[auto]" style={{ overflowX: "hidden" }}>
+            <Notification />
             <TopBar />
             <Routes>
               <Route path="/" element={<DashBoard />} />
