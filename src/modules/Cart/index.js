@@ -12,6 +12,7 @@ import dayjs from "dayjs";
 import Notification from "../../components/Notification";
 import NotificationContext from "../../context/NotificationContext";
 import { ThankYou } from "../../components/ThankYou";
+import Cookies from "js-cookie";
 
 const wait = (milliseconds) => {
   return new Promise((resolve) => {
@@ -31,7 +32,7 @@ const Cart = () => {
   const [visibleBtn, setVisibleBtn] = useState(true);
   const [loadThankYou, setLoadThankYou] = useState(false);
   const carts = JSON.parse(localStorage.getItem("cart")) || [];
-  const accountId = localStorage.getItem("accountId");
+  const accountId = Cookies.get("accountId");
 
   useEffect(() => {
     const fetchAddresses = (accountId) => {

@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 
 const UserProfile = () => {
   const navigate = useNavigate();
-  const accountId = localStorage.getItem("accountId");
+  const accountId = Cookies.get("accountId");
   const [userInfo, setUserInfo] = useState(null);
 
   useEffect(() => {

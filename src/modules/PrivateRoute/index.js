@@ -2,10 +2,11 @@ import React, { useState, useEffect } from "react";
 import { Outlet, Navigate } from "react-router-dom";
 import axios from "axios";
 import Loading from "../../components/Loading";
+import Cookies from "js-cookie";
 
 const PrivateRoutes = () => {
-  const token = localStorage.getItem("token");
-  const role = localStorage.getItem("role");
+  const token = Cookies.get("jwtToken");
+  const role = Cookies.get("role");
   const [auth, setAuth] = useState(null);
 
   useEffect(() => {

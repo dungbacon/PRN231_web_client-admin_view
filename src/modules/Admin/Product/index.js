@@ -5,12 +5,10 @@ import { tokens } from "../../../theme";
 import Header from "../../../components/Admin/Header";
 import { useTheme } from "@mui/material";
 import { GetProducts, AddProduct } from "../../../data/ProductController";
-import { isObjectEmpty } from "../../../common_function/service";
 import { GetCategories } from "../../../data/CategoryController";
 import { url_img_regex } from "../../../common_function/regex/commonRegex";
 import { UploadImgToImgBB } from "../../../data/ServiceController";
 import NotificationContext from "../../../context/NotificationContext";
-import Loading from "../../../components/Loading";
 import Cookies from "js-cookie";
 
 const ManageProduct = () => {
@@ -38,7 +36,8 @@ const ManageProduct = () => {
       align: "center",
       renderCell: ({ row }) => {
         const imageUrl = row.productImg.match(url_img_regex)[0];
-        return <img className="" src={imageUrl} />;
+        const name = row.productName;
+        return <img className="" alt={name} src={imageUrl} />;
       },
     },
     {
@@ -203,15 +202,14 @@ const ManageProduct = () => {
 
       console.log(request);
 
-      const response = await AddProduct(request, jwtToken);
-      console.log(response);
-      if (response.status === 200) {
-        notificationHandler({
-          type: "success",
-          message: "Thêm sản phẩm thành công!",
-        });
-      }
-
+      const response = await AddProduct(request, jwtToken).then((response) => {
+        if (response.status >= 200 && response.status < 300) {
+          notificationHandler({
+            type: "success",
+            message: "Thêm sản phẩm thành công!",
+          });
+        }
+      });
       setLoadData(true);
     } catch (error) {
       notificationHandler({

@@ -4,9 +4,8 @@ import { Navigate } from "react-router-dom";
 
 const Logout = () => {
   Cookies.remove("jwtToken");
-  localStorage.removeItem("role");
-  localStorage.removeItem("accountId");
-
+  Cookies.remove("role");
+  Cookies.remove("accountId");
   return <Navigate to="/login" />;
 };
 

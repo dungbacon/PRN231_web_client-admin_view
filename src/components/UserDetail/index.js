@@ -39,7 +39,7 @@ function UserDetail({ data }) {
 
   function HandleEditBtn() {
     const currentDate = dayjs();
-    const accountId = localStorage.getItem("accountId");
+    const accountId = Cookies.get("accountId");
     const jwtToken = Cookies.get("jwtToken");
     if (isChecked == false) {
       notificationHandler({

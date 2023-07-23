@@ -149,7 +149,7 @@ const SideBar = () => {
             />
             <Item
               title="Đơn Hàng"
-              to="/admin/invoices"
+              to="/admin/order"
               icon={<ReceiptOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}

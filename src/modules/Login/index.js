@@ -32,10 +32,8 @@ const LoginModule = () => {
           const expirationTime = new Date();
           expirationTime.setTime(expirationTime.getTime() + 30 * 60 * 1000);
           Cookies.set("jwtToken", token, { expires: expirationTime });
-          localStorage.setItem("token", token);
-          localStorage.setItem("role", role);
-          localStorage.setItem("accountId", accountId);
-
+          Cookies.set("role", role, { expires: expirationTime });
+          Cookies.set("accountId", accountId, { expires: expirationTime });
           setErrorMessage("");
 
           if (role.replace('"', "") === "admin") {

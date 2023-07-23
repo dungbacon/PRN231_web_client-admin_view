@@ -15,9 +15,10 @@ import Paper from "@mui/material/Paper";
 import Popper from "@mui/material/Popper";
 import MenuItem from "@mui/material/MenuItem";
 import MenuList from "@mui/material/MenuList";
+import Cookies from "js-cookie";
 
 const TopBar = () => {
-  const token = localStorage.getItem("token");
+  const token = Cookies.get("jwtToken");
   const navigate = useNavigate();
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);

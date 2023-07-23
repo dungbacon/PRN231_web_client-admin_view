@@ -49,7 +49,7 @@ const ProductDetail = ({ productId }) => {
   const imgs = product.productImg.match(url_img_regex);
 
   const handleCart = (product, buyNow) => {
-    const accountId = localStorage.getItem("accountId");
+    const accountId = Cookies.get("accountId");
     const token = Cookies.get("jwtToken");
     if (!token || !accountId) {
       notificationHandler({

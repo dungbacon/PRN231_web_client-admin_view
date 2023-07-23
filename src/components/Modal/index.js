@@ -1,11 +1,12 @@
 import React, { useState, useContext } from "react";
 import { AddAddress } from "../../data/AddressController";
 import NotificationContext from "../../context/NotificationContext";
+import Cookies from "js-cookie";
 
 const Modal = ({ visible, onClose }) => {
   const { notificationHandler } = useContext(NotificationContext);
   const [address, setAddress] = useState("");
-  const accountId = localStorage.getItem("accountId");
+  const accountId = Cookies.get("accountId");
 
   const handleOnClose = (e) => {
     if (e.target.id === "close") onClose();
