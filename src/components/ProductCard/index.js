@@ -81,6 +81,7 @@ const ProductCard = ({ products = [] }) => {
                     src={GetDisplayImg(productImg)[imgIndex]}
                     alt={productName}
                   />
+                  {console.log(GetDisplayImg(productImg)[imgIndex])}
                   <span className="absolute top-0 left-0 m-2 rounded-full font-bold bg-black px-2 text-center text-sm text-white">
                     {discount}% OFF
                   </span>

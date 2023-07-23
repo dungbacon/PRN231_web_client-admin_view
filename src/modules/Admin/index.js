@@ -6,7 +6,7 @@ import TopBar from "./Global/TopBar";
 import SideBar from "./Global/SideBar";
 import DashBoard from "./DashBoard";
 import Category from "./Category";
-import Contacts from "./Contacts";
+import ManageProduct from "./Product";
 import Invoices from "./Invoices";
 import Form from "./Form";
 import Calendar from "./Calendar";
@@ -31,7 +31,7 @@ const AdminView = () => {
             <Routes>
               <Route path="/" element={<DashBoard />} />
               <Route path="/category" element={<Category />} />
-              <Route path="/contacts" element={<Contacts />} />
+              <Route path="/product" element={<ManageProduct />} />
               <Route path="/invoices" element={<Invoices />} />
               <Route path="/form" element={<Form />} />
               <Route path="/calendar" element={<Calendar />} />

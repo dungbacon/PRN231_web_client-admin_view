@@ -11,3 +11,12 @@ export const formattedPriceService = (price) => {
     currency: "VND",
   });
 };
+
+export const isObjectEmpty = (obj) => {
+  for (const key in obj) {
+    if (!obj[key] || obj[key].trim() === "") {
+      return false;
+    }
+  }
+  return true;
+};

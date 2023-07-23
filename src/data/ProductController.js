@@ -32,3 +32,17 @@ export const GetProductDetail = async (id) => {
     console.log(e);
   }
 };
+
+export const AddProduct = async (product, jwtToken) => {
+  let url = `https://localhost:7249/api/Product/add`;
+  try {
+    const { data: response } = await axios.post(url, product, {
+      headers: {
+        Authorization: `Bearer ${jwtToken}`,
+      },
+    });
+    return response;
+  } catch (e) {
+    console.log(e);
+  }
+};
