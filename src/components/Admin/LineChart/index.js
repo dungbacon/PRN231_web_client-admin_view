@@ -1,16 +1,48 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useTheme } from "@mui/material";
 import { tokens } from "../../../theme";
-import { mockLineData as data } from "../../../data/mockData";
+import { mockLineData } from "../../../data/mockData";
 import { ResponsiveLine } from "@nivo/line";
+import { MonthlyRevenuePerYear } from "../../../data/OrderDetailController";
+import Cookies from "js-cookie";
 
 const LineChart = ({ isDashboard = false }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const jwtToken = Cookies.get("jwtToken");
+  const [dataStats, setDataStats] = useState([]);
+
+  useEffect(() => {
+    MonthlyRevenuePerYear(jwtToken)
+      .then((response) => {
+        console.log(response.data);
+        if (response.status === 200) {
+          return response.data.map((item) => ({
+            x: item.month,
+            y: item.revenue,
+          }));
+        }
+      })
+      .then((result) => {
+        console.log(result);
+        setDataStats([
+          {
+            id: "Doanh thu",
+            color: tokens("dark").greenAccent[500],
+            data: result,
+          },
+        ]);
+      })
+      .catch((error) => {
+        if (error) {
+          console.log(error);
+        }
+      });
+  }, []);
 
   return (
     <ResponsiveLine
-      data={data}
+      data={dataStats}
       theme={{
         axis: {
           domain: {

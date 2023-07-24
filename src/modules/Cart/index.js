@@ -95,7 +95,8 @@ const Cart = () => {
       };
     });
     try {
-      var response = await AddOrder(orderRequest);
+      const jwtToken = Cookies.get("jwtToken");
+      var response = await AddOrder(orderRequest, jwtToken);
       if (response.status === 200) {
         notificationHandler({
           type: "success",
